@@ -3,3 +3,93 @@ title: "p8105_hw1_jf3355"
 author: "Jiahao Fan"
 date: "9/26/2021"
 output: github_document
+---
+```{r,include=FALSE}
+library(tidyverse)
+```
+#Problem 1
+
+This problem is intended to emphasize variable types and introduce coercion; some awareness of how R treats numeric, character, and factor variables is necessary for working with these data types in practice.
+
+Create a data frame comprised of:
+
+a random sample of size 10 from a standard Normal distribution
+a logical vector indicating whether elements of the sample are greater than 0
+a character vector of length 10
+a factor vector of length 10, with 3 different factor “levels”
+```{r}
+set.seed(1)
+data_frame = tibble(
+  sample = rnorm(10),
+  vec_logical = sample > 0,
+  vec_char = c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j"),
+  vec_factor = c("A", "B", "C", "A", "B", "C", "A", "B", "C", "A")
+)
+
+#check the data frame
+data_frame
+
+#Try to take the mean of each variable in your dataframe. What works and what doesn’t?
+
+mean(pull(data_frame, sample))
+#it works
+mean(pull(data_frame, vec_logical))
+#it works
+mean(pull(data_frame, vec_char))
+#it doesn't work
+mean(pull(data_frame, vec_factor))
+#it doesn't work
+#this is because `mean()` function doesn't support these two types of variable.
+```
+#In some cases, you can explicitly convert variables from one type to another. Write a code chunk that applies the as.numeric function to the logical, character, and factor variables (please show this chunk but not the output). What happens, and why? Does this help explain what happens when you try to take the mean?
+```{r}
+as.numeric(pull(data_frame, vec_logical))
+as.numeric(pull(data_frame, vec_char))
+as.numeric(pull(data_frame, vec_factor))
+#only vec_logical works, and other two were told "NAs introduced by coercion" since they are not numeric.
+
+#try to convert character variable to factor to numeric.
+as.numeric(as.factor(pull(data_frame , vec_char)))
+
+#try to convert factor variable to numeric.
+as.numeric(as.factor(pull(data_frame , vec_factor)))
+
+#if we convert character variable to factor to numeric, it will work for the mean since they are numeric.
+```
+
+
+
+#Problem2
+```{r}
+data("penguins", package = "palmerpenguins")
+```
+
+#Write a short description of the penguins dataset (not the penguins_raw dataset) using inline R code, including:
+
+#the data in this dataset, including names / values of important variables
+```{r}
+str(penguins)
+```
+
+the size of the dataset (using nrow and ncol)
+```{r}
+size = nrow(penguins) * ncol(penguins)
+size
+```
+#the mean flipper length
+```{r}
+mean(pull(penguins,flipper_length_mm))
+```
+
+#Make a scatterplot of flipper_length_mm (y) vs bill_length_mm (x); color points using the species variable (adding color = ... inside of aes in your ggplot code should help).
+
+#Export your first scatterplot to your project directory using ggsave.
+```{r}
+ggplot(penguins, aes(x=bill_length_mm, y=flipper_length_mm)) +
+    geom_point(aes(color = species)) +
+    ggtitle("Bill Length vs lipper Length ")
+```
+
+
+
+
