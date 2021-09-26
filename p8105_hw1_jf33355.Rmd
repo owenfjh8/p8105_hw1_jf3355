@@ -88,7 +88,7 @@ round(mean(pull(penguins,flipper_length_mm), na.rm = TRUE))
 ```{r}
 ggplot(penguins, aes(x=bill_length_mm, y=flipper_length_mm, color = species)) +
     geom_point() +
-    ggtitle("Bill Length vs flipper Length ")
+    ggtitle("Bill Length vs flipper Length")
 
 ggsave("scatter_plot.pdf", height=6, width = 4)
 ```
