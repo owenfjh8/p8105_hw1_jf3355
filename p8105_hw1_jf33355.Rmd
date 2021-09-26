@@ -2,4 +2,4 @@
 title: "p8105_hw1_jf3355"
 author: "Jiahao Fan"
 date: "9/26/2021"
-output: html_document
+output: github_document
