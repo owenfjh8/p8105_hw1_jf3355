@@ -70,6 +70,7 @@ data("penguins", package = "palmerpenguins")
 ```{r}
 str(penguins)
 ```
+#The penguins dataset is a compilation of observations of penguin species (`r paste(levels(penguins$species), collapse = ", ")`) on the islands of `r paste(levels(penguins$island), collapse = ", ")` from `r min(penguins$year)` - `r max(penguins$year)`. Bill length, bill depth, flipper length, body mass,sex were variables that were captured. 
 
 the size of the dataset (using nrow and ncol)
 ```{r}
@@ -78,18 +79,18 @@ size
 ```
 #the mean flipper length
 ```{r}
-mean(pull(penguins,flipper_length_mm))
+round(mean(pull(penguins,flipper_length_mm), na.rm = TRUE))
 ```
 
 #Make a scatterplot of flipper_length_mm (y) vs bill_length_mm (x); color points using the species variable (adding color = ... inside of aes in your ggplot code should help).
 
 #Export your first scatterplot to your project directory using ggsave.
 ```{r}
-ggplot(penguins, aes(x=bill_length_mm, y=flipper_length_mm)) +
-    geom_point(aes(color = species)) +
-    ggtitle("Bill Length vs lipper Length ")
+ggplot(penguins, aes(x=bill_length_mm, y=flipper_length_mm, color = species)) +
+    geom_point() +
+    ggtitle("Bill Length vs flipper Length ")
 
-ggsave("scatter_plot.pdf")
+ggsave("scatter_plot.pdf", height=6, width = 4)
 ```
 
 
