@@ -23,7 +23,7 @@ data_frame = tibble(
   sample = rnorm(10),
   vec_logical = sample > 0,
   vec_char = c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j"),
-  vec_factor = c("A", "B", "C", "A", "B", "C", "A", "B", "C", "A")
+  vec_factor = factor(c("Large", "Large", "Large", "Medium", "Medium", "Medium", "Small", "Small", "Small", "Small"))
 )
 
 #check the data frame
@@ -42,19 +42,12 @@ mean(pull(data_frame, vec_factor))
 #this is because `mean()` function doesn't support these two types of variable.
 ```
 #In some cases, you can explicitly convert variables from one type to another. Write a code chunk that applies the as.numeric function to the logical, character, and factor variables (please show this chunk but not the output). What happens, and why? Does this help explain what happens when you try to take the mean?
-```{r}
+```{r, eval=FALSE}
 as.numeric(pull(data_frame, vec_logical))
 as.numeric(pull(data_frame, vec_char))
 as.numeric(pull(data_frame, vec_factor))
-#only vec_logical works, and other two were told "NAs introduced by coercion" since they are not numeric.
 
-#try to convert character variable to factor to numeric.
-as.numeric(as.factor(pull(data_frame , vec_char)))
-
-#try to convert factor variable to numeric.
-as.numeric(as.factor(pull(data_frame , vec_factor)))
-
-#if we convert character variable to factor to numeric, it will work for the mean since they are numeric.
+#The logical vector and the factor vector was converted successful. In the logical vector, TURE values are converted to 1,the FALSE values are converted to 0. In the factor vector, the levels were converted to numeric value 1，2，3. The character vector wasn't converted to numbers. The mean of the the logical vector tells us that how likely the sample is true; the character values do not have intrinsic numeric value and does not have a mean;the factor vector does not have a mean even though the levels can be converted numeric because levels are similar to ranks,so the mean has no numerical meaning.
 ```
 
 
